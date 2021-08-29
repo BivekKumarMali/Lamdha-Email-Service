@@ -22,7 +22,7 @@ jobs:
       shell: sh
       run: |
           ls -a
-          zip -r publish.zip EmailService/bin/Release/netcoreapp3.1
+          zip -r publish.zip EmailService/bin/Release/netcoreapp3.1/
           ls -a
     - name: Deploy lambda
       uses: appleboy/lambda-action@master
