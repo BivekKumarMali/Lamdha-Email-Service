@@ -2,7 +2,7 @@ name: Build and Deploy Lamdha Service
 
 on:
   push:
-    branches: [ add-ci-cd-for-lamdha ]
+    branches: [  add-ci-cd-for-lamdha  ]
 
 jobs:
   build:
