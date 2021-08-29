@@ -5,7 +5,7 @@ on:
     branches: [  add-ci-cd-for-lamdha  ]
 
 jobs:
-  Build and Deploy:
+  LamdhaDeployService:
     runs-on: ubuntu-latest
 
     steps:
