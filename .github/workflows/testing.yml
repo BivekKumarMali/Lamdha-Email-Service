@@ -1,0 +1,27 @@
+name: Build and Deploy Lamdha Service
+
+on:
+  push:
+    branches: [  add-ci-cd-for-lamdha  ]
+
+jobs:
+  LamdhaDeployService:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Deploy lambda
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: ${{ secrets.AWS_REGION }}
+        function_name: SendEmail
+        source: EmailService/bin/Release/netcoreapp3.1
+    
