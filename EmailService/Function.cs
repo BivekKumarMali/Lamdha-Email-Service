@@ -5,7 +5,7 @@ using System.Net.Mail;
 using Amazon.Lambda.Core;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
-
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 namespace EmailService
 {
     /// <summary>
@@ -28,15 +28,14 @@ namespace EmailService
         /// <param name="input"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        [LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-        public void FunctionHandler(MyObject userDetails, ILambdaContext context)
+        public void FunctionHandler(MyObject input, ILambdaContext context)
         {
             MyObject owner = getOwnerDetails();
             var fromAddress = new MailAddress(owner.Email, owner.Name);
             var toAddress = new MailAddress(owner.Email, owner.Name);
             string fromPassword = owner.Password;
-            string subject = $"Potential Client {userDetails.Name}";
-            string body = $"Hello, This an pontential client {userDetails.Name}, try to contact as soon as possible. His email is {userDetails.Email} and phone number is {userDetails.Number}";
+            string subject = $"Potential Client {input.Name}";
+            string body = $"Hello, This an pontential client {input.Name}, try to contact as soon as possible. His email is {input.Email} and phone number is {input.Number}";
 
             var smtp = new SmtpClient
             {
@@ -84,7 +83,7 @@ namespace EmailService
             {
                 Name = $"/ferricSkeleton/{name}"
             };
-            using (var client = new AmazonSimpleSystemsManagementClient(Amazon.RegionEndpoint.GetBySystemName("us-east-2")))
+            using (var client = new AmazonSimpleSystemsManagementClient(Amazon.RegionEndpoint.GetBySystemName("ap-south-1")))
             {
                 var response = client.GetParameterAsync(request).GetAwaiter().GetResult();
                 value = response.Parameter.Value;
