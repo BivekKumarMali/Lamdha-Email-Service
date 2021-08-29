@@ -24,7 +24,7 @@ jobs:
           ls -a
           cd EmailService/bin/Release/netcoreapp3.1
           ls -a
-          zip -r publish.zip EmailService/bin/Release/netcoreapp3.1/publish
+          zip -r publish.zip EmailService/bin/Release/netcoreapp3.1
     - name: Deploy lambda
       uses: appleboy/lambda-action@master
       with:
