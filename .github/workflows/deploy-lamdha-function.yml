@@ -28,7 +28,7 @@ jobs:
     - name: Archive build
       uses: actions/upload-artifact@v2
       with:
-        name: publish
+        name: Testing
         path: EmailService/bin/Release/netcoreapp3.1/publish.zip
     - name: Deploy lambda
       uses: appleboy/lambda-action@master

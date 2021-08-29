@@ -21,7 +21,7 @@ namespace EmailService
 
     public class Function
     {
-        #region Public Mathods
+        #region Public Methods
         /// <summary>
         /// A simple function that send mail
         /// </summary>
@@ -35,7 +35,7 @@ namespace EmailService
             var toAddress = new MailAddress(owner.Email, owner.Name);
             string fromPassword = owner.Password;
             string subject = $"Potential Client {input.Name}";
-            string body = $"Hello, This an pontential client {input.Name}, try to contact as soon as possible. His email is {input.Email} and phone number is {input.Number}";
+            string body = $"Hello, \n\n This an Potential client {input.Name}, try to contact as soon as possible. His email is {input.Email} and phone number is {input.Number}";
 
             var smtp = new SmtpClient
             {
@@ -54,6 +54,7 @@ namespace EmailService
             {
                 smtp.Send(message);
             }
+            LambdaLogger.Log("Mail Sent");
         }
         #endregion
 
@@ -68,6 +69,7 @@ namespace EmailService
             owner.Email = getValuefromSSM("email");
             owner.Password = getValuefromSSM("password");
             owner.Name = getValuefromSSM("name");
+            LambdaLogger.Log("Owner Values" + owner.ToString());
             return owner;
         }
 
@@ -88,6 +90,9 @@ namespace EmailService
                 var response = client.GetParameterAsync(request).GetAwaiter().GetResult();
                 value = response.Parameter.Value;
             }
+
+            LambdaLogger.Log("Request Path" + request.ToString());
+            LambdaLogger.Log("SSM Values" + value);
             return value;
         }
         #endregion
