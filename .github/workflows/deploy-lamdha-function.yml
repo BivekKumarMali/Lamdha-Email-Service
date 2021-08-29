@@ -22,7 +22,8 @@ jobs:
       shell: sh
       run: |
           ls -a
-          zip -r publish.zip EmailService/bin/Release/netcoreapp3.1/
+          cd EmailService/bin/Release/netcoreapp3.1
+          zip -r publish.zip *
           ls -a
     - name: Archive build
       uses: actions/upload-artifact@v2
