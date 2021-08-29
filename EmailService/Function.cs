@@ -35,7 +35,7 @@ namespace EmailService
             var toAddress = new MailAddress(owner.Email, owner.Name);
             string fromPassword = owner.Password;
             string subject = $"Potential Client {userDetails.Name}";
-            string body = $"Hello, \n\n This an Potential client {userDetails.Name}, try to contact as soon as possible. His email is {userDetails.Email} and phone number is {userDetails.Number}";
+            string body = $"Hello, \n\n This is a Potential client {userDetails.Name}, try to contact as soon as possible. His email is {userDetails.Email} and phone number is {userDetails.Number}";
             try
             {
                 var smtp = new SmtpClient
