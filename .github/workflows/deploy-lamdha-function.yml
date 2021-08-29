@@ -21,15 +21,8 @@ jobs:
     - name: Zip resource
       shell: sh
       run: |
-          ls -a
           cd EmailService/bin/Release/netcoreapp3.1
           zip -r publish.zip *
-          ls -a
-    - name: Archive build
-      uses: actions/upload-artifact@v2
-      with:
-        name: Testing
-        path: EmailService/bin/Release/netcoreapp3.1/publish.zip
     - name: Deploy lambda
       uses: appleboy/lambda-action@master
       with:
@@ -37,5 +30,5 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ${{ secrets.AWS_REGION }}
         function_name: SendEmail
-        source: EmailService/bin/Release/netcoreapp3.1/publish.zip
+        zip_file: EmailService/bin/Release/netcoreapp3.1/publish.zip
     
