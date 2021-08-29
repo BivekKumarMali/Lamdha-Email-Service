@@ -5,7 +5,7 @@ on:
     branches: [  add-ci-cd-for-lamdha  ]
 
 jobs:
-  build:
+  Build and Deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,18 +18,27 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-  deploy_source:
-    name: deploy lambda from source
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout source code
-        uses: actions/checkout@v1
-      - name: default deploy
-        uses: appleboy/lambda-action@master
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_REGION }}
-          function_name: SendEmail
-          source: EmailService/bin/Release/netcoreapp3.1/publish
+    - name: Archive build
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: publish
+        path: EmailService/bin/Release/netcoreapp3.1/publish
+    - name: Download build
+      uses: actions/download-artifact@v2
+      with:
+        name: publish
+    - name: Zip resource
+      shell: sh
+      run: |
+          ls -a
+          zip -r publish.zip ./
+    - name: Deploy lambda
+      uses: appleboy/lambda-action@master
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: ${{ secrets.AWS_REGION }}
+        function_name: SendEmail
+        source: EmailService/bin/Release/netcoreapp3.1/publish
     
