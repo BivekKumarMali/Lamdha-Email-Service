@@ -6,7 +6,7 @@ on:
 
 jobs:
   LamdhaDeployService:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
       shell: sh
       run: |
           ls -a
-          cd EmailService/bin/Release/netcoreapp3.1/publish
+          cd EmailService/bin/Release/netcoreapp3.1
           ls -a
           zip -r publish.zip EmailService/bin/Release/netcoreapp3.1/publish
     - name: Deploy lambda
