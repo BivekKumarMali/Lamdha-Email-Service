@@ -24,6 +24,11 @@ jobs:
           ls -a
           zip -r publish.zip EmailService/bin/Release/netcoreapp3.1/
           ls -a
+    - name: Archive build
+      uses: actions/upload-artifact@v2
+      with:
+        name: publish
+        path: publish.zip
     - name: Deploy lambda
       uses: appleboy/lambda-action@master
       with:
