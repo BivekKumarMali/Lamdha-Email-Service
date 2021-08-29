@@ -23,6 +23,7 @@ jobs:
       run: |
           ls -a
           zip -r publish.zip EmailService/bin/Release/netcoreapp3.1
+          ls -a
     - name: Deploy lambda
       uses: appleboy/lambda-action@master
       with:
@@ -30,5 +31,5 @@ jobs:
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_region: ${{ secrets.AWS_REGION }}
         function_name: SendEmail
-        source: EmailService/bin/Release/netcoreapp3.1/publish
+        source: publish.zip
     
