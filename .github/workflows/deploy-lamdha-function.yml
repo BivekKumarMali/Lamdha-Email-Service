@@ -18,19 +18,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Archive build
-      if: success()
-      uses: actions/upload-artifact@v2
-      with:
-        name: publish
-        path: EmailService/bin/Release/netcoreapp3.1/publish
-    - name: Download build
-      uses: actions/download-artifact@v2
-      with:
-        name: publish
     - name: Zip resource
       shell: sh
       run: |
+          ls -a
+          cd ./EmailService/bin/Release/netcoreapp3.1/publish
           ls -a
           zip -r publish.zip ./
     - name: Deploy lambda
