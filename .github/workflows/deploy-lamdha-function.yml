@@ -31,4 +31,5 @@ jobs:
         aws_region: ${{ secrets.AWS_REGION }}
         function_name: SendEmail
         zip_file: EmailService/bin/Release/netcoreapp3.1/buildFile.zip
-    
+
+
