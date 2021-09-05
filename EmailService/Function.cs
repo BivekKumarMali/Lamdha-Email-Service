@@ -32,17 +32,18 @@ namespace EmailService
         public APIGatewayProxyResponse FunctionHandler(APIGatewayProxyRequest userDetails, ILambdaContext context)
         {
             var userProperty = new MyObject();
-            if(userDetails.QueryStringParameters != null)
+            if (userDetails.QueryStringParameters != null)
             {
                 try
                 {
-                    userProperty = new MyObject() {
+                    userProperty = new MyObject()
+                    {
                         Email = userDetails.QueryStringParameters["Email"],
                         Name = userDetails.QueryStringParameters["Name"],
                         Number = userDetails.QueryStringParameters["Number"],
                     };
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     LambdaLogger.Log("Property Binding, went wrong" + e);
                     return new APIGatewayProxyResponse()
@@ -57,7 +58,11 @@ namespace EmailService
             var toAddress = new MailAddress(owner.Email, owner.Name);
             string fromPassword = owner.Password;
             string subject = $"Potential Client {userProperty.Name}";
-            string body = $"Hello, \n\n This is a Potential client {userProperty.Name}, try to contact as soon as possible. His email is {userProperty.Email} and phone number is {userProperty.Number}";
+            string body = $"Hello, \n\n This is a Potential client {userProperty.Name}, try to contact as soon as possible. His email is {userProperty.Email}";
+            if (userProperty.Number != null)
+            {
+                body = $"{body} and phone number is { userProperty.Number }";
+            }
             try
             {
                 var smtp = new SmtpClient
@@ -84,7 +89,7 @@ namespace EmailService
                     Body = "Email Sent"
                 };
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LambdaLogger.Log("Something went wrong" + e);
                 return new APIGatewayProxyResponse()
@@ -92,7 +97,7 @@ namespace EmailService
                     StatusCode = 500,
                     Body = "Something went wrong" + e
                 };
-            }     
+            }
         }
         #endregion
 
